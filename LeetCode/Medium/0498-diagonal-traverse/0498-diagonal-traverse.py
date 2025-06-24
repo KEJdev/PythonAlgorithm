@@ -1,20 +1,20 @@
 class Solution:
     def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
-        
-        answer = [[]]
-        for i in range(len(mat)):
-            for j in range(len(mat[0])):
-                k = i+j 
-                if len(answer) != k:
-                    answer.append([])     
-                answer[k].append(mat[i][j])
-        
-        mat = []
-        for index, sublist in enumerate(answer) :
-            if index%2 == 0:
-                mat.extend(list(reversed(sublist)))
+        if not mat or not mat[0]:
+            return []
+
+        m, n = len(mat), len(mat[0])
+        diagonals = [[] for _ in range(m + n - 1)]
+
+        for i in range(m):
+            for j in range(n):
+                diagonals[i + j].append(mat[i][j])
+
+        result = []
+        for index, group in enumerate(diagonals):
+            if index % 2 == 0:
+                result.extend(group[::-1])  # 슬라이싱으로 뒤집기
             else:
-                mat.extend(sublist)
-        
-        return mat
-        
+                result.extend(group)
+
+        return result
